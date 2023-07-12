@@ -1,11 +1,10 @@
-package com.pwhxbdk.utils;
+package com.pwhxbdkk.utils;
 
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.PsiShortNamesCache;
-import com.intellij.psi.util.PsiTreeUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
  * @Author: pwhxbdk
  * @Date: 2020/7/15 15:32
  */
-public class GeneratorUtils {
+public class GeneratorUtils2 {
 
     private static final String MAPPING_VALUE = "value";
     private static final String MAPPING_METHOD = "method";
@@ -39,7 +38,7 @@ public class GeneratorUtils {
     private final PsiElementFactory elementFactory;
     private final String selectionText;
 
-    public GeneratorUtils(Project project, PsiFile psiFile, PsiClass psiClass, String selectionText) {
+    public GeneratorUtils2(Project project, PsiFile psiFile, PsiClass psiClass, String selectionText) {
         this.project = project;
         this.psiFile = psiFile;
         this.psiClass = psiClass;
@@ -54,36 +53,21 @@ public class GeneratorUtils {
                 selection = true;
             }
             // 遍历当前对象的所有属性
-            boolean isController = this.isController(psiClass);
-            if (selection) {
-                this.generateSelection(psiClass, selectionText, isController);
-                return;
-            }
-            // 获取注释
-            this.generateClassAnnotation(psiClass, isController);
-            if (isController) {
-                // 类方法列表
-                PsiMethod[] methods = psiClass.getMethods();
-                for (PsiMethod psiMethod : methods) {
-                    this.generateMethodAnnotation(psiMethod);
-                }
-            } else {
-                PsiClass[] innerClasses = psiClass.getInnerClasses();
-                if (innerClasses.length > 0) {
-                    for (PsiClass innerClass : innerClasses) {
-                        this.generateClassAnnotation(innerClass, false);
-                        // 类属性列表
-                        PsiField[] field = innerClass.getAllFields();
-                        for (PsiField psiField : field) {
-                            this.generateFieldAnnotation(psiField);
-                        }
+            PsiClass[] innerClasses = psiClass.getInnerClasses();
+            if (innerClasses.length > 0) {
+                for (PsiClass innerClass : innerClasses) {
+                    this.generateClassAnnotation(innerClass, false);
+                    // 类属性列表
+                    PsiField[] field = innerClass.getAllFields();
+                    for (PsiField psiField : field) {
+                        this.generateFieldAnnotation(psiField);
                     }
                 }
-                // 类属性列表
-                PsiField[] field = psiClass.getAllFields();
-                for (PsiField psiField : field) {
-                    this.generateFieldAnnotation(psiField);
-                }
+            }
+            // 类属性列表
+            PsiField[] field = psiClass.getAllFields();
+            for (PsiField psiField : field) {
+                this.generateFieldAnnotation(psiField);
             }
         });
     }
@@ -334,23 +318,20 @@ public class GeneratorUtils {
     }
 
     /**
-     * 生成属性注解
+     * 生成mongoDB注解
      * @param psiField 类属性元素
      */
     private void generateFieldAnnotation(PsiField psiField){
-        PsiComment classComment = null;
+        PsiIdentifier classComment = null;
         for (PsiElement tmpEle : psiField.getChildren()) {
-            if (tmpEle instanceof PsiComment) {
-                classComment = (PsiComment) tmpEle;
+            if (tmpEle instanceof PsiIdentifier) {
+                classComment = (PsiIdentifier) tmpEle;
                 // 注释的内容
                 String tmpText = classComment.getText();
-                String commentDesc = CommentUtils.getCommentDesc(tmpText);
-                String apiModelPropertyText = String.format("@ApiModelProperty(value=\"%s\")",commentDesc);
-                this.doWrite("ApiModelProperty", "io.swagger.annotations.ApiModelProperty", apiModelPropertyText, psiField);
+                String commentDesc = CommentUtils.convertCamelToSnake(tmpText);
+                String apiModelPropertyText = String.format("@Field(value=\"%s\")",commentDesc);
+                this.doWrite("Field", "org.springframework.data.mongodb.core.mapping.Field", apiModelPropertyText, psiField);
             }
-        }
-        if (Objects.isNull(classComment)) {
-            this.doWrite("ApiModelProperty", "io.swagger.annotations.ApiModelProperty", "@ApiModelProperty(\"\")", psiField);
         }
     }
 

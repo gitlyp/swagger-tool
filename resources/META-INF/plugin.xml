@@ -1,13 +1,13 @@
 <idea-plugin>
-  <id>com.pwhxbdk.plugin.swagger.tool</id>
-  <name>Swagger Tools</name>
+  <id>com.pwhxbdkk.plugin.swagger.tool</id>
+  <name>Swagger Tools11111</name>
   <version>1.1.1</version>
   <vendor>Pwhxbdk</vendor>
 
   <description><![CDATA[
       IntelliJ Generate Annotation plugin.<br>
       <a href="https://github.com/Pwhxbdk/swagger-tool">GitHub</a><br>
-      根据类属性/方法的doc注释生成swagger注解。<br>
+      根据类属性/方法的doc注111111释生成swagger注解。<br>
       使用说明请前往github查看...<br>
       Generate swagger annotations based on doc comments of class field / methods.<br>
       For instructions, please go to github...
@@ -105,8 +105,13 @@
 
   <actions>
     <!-- Add your actions here -->
-    <action id="com.pwhxbdk.SwaggerTool" class="com.pwhxbdk.SwaggerTool" text="SwaggerAnnotation"
+    <action id="com.pwhxbdkk.SwaggerTool" class="com.pwhxbdkk.SwaggerTool" text="SwaggerAnnotation"
             description="Generate swagger annotation">
+      <add-to-group group-id="GenerateGroup" anchor="first"/>
+    </action>
+
+    <action id="com.pwhxbdkk.MongoDBTool" class="com.pwhxbdkk.MongoDBTool" text="MongoDBAnnotation"
+            description="MongoDB annotation to doc">
       <add-to-group group-id="GenerateGroup" anchor="first"/>
     </action>
   </actions>

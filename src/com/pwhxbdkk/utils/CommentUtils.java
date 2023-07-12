@@ -1,13 +1,10 @@
-package com.pwhxbdk.utils;
+package com.pwhxbdkk.utils;
 
 import com.intellij.psi.PsiType;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author pwhxbdk
@@ -80,6 +77,15 @@ public class CommentUtils {
             stringBuilder.append(desc);
         }
         return StringUtils.trim(stringBuilder.toString());
+    }
+
+    /**
+     * 将驼峰形式转换为下划线形式
+     * @param camelCase
+     * @return
+     */
+    public static String convertCamelToSnake(String camelCase){
+        return camelCase.replaceAll("([a-z0-9])([A-Z])", "$1_$2").toLowerCase();
     }
     /**
      * 获取注解说明  不写/@desc/@describe/@description

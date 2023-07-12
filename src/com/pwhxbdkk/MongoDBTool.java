@@ -1,20 +1,21 @@
-package com.pwhxbdk;
+package com.pwhxbdkk;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.util.PsiUtilBase;
-import com.pwhxbdk.utils.GeneratorUtils;
+import com.pwhxbdkk.utils.GeneratorUtils2;
 
 /**
- * @author pwhxbdk
- * @date 2020/4/5
+ * @author liao
+ * @date 2023/7/12
  */
-public class SwaggerTool extends AnAction {
+public class MongoDBTool extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
@@ -27,7 +28,7 @@ public class SwaggerTool extends AnAction {
         PsiFile psiFile = PsiUtilBase.getPsiFileInEditor(editor, project);
         PsiClass psiClass = PsiTreeUtil.findChildOfAnyType(psiFile, PsiClass.class);
         String selectionText = editor.getSelectionModel().getSelectedText();
-        new GeneratorUtils(project, psiFile, psiClass, selectionText).doGenerate();
+        new GeneratorUtils2(project, psiFile, psiClass, selectionText).doGenerate();
     }
 
 }
