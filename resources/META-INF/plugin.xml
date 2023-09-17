@@ -112,7 +112,12 @@
 
     <action id="com.pwhxbdkk.MongoDBTool" class="com.pwhxbdkk.MongoDBTool" text="MongoDBAnnotation"
             description="MongoDB annotation to doc">
-      <add-to-group group-id="GenerateGroup" anchor="first"/>
+      <add-to-group group-id="GenerateGroup" anchor="after"  relative-to-action="com.pwhxbdkk.SwaggerTool"/>
+    </action>
+
+    <action id="com.pwhxbdkk.Swagger2DocTool" class="com.pwhxbdkk.Swagger2DocTool" text="Swagger To  Anno"
+            description="Generate swagger to doc">
+      <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="com.pwhxbdkk.MongoDBTool" />
     </action>
   </actions>
 
